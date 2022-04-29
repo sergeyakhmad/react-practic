@@ -1,9 +1,15 @@
+import s from "./ButtonsToAnalitics.module.scss";
+
 const ButtonsToAnalitics = () => {
   return (
-    <>
-      <button type="button">Всі видатки</button>
-      <button type="button">Всі доходи</button>
-    </>
+    <div className={s.container}>
+      <button className={s.btn} type="button">
+        Всі витрати
+      </button>
+      <button className={s.btn} type="button">
+        Всі доходи
+      </button>
+    </div>
   );
 };
 

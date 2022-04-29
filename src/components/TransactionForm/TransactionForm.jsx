@@ -1,28 +1,30 @@
+import s from "./TransactionForm.module.scss";
+
 const TransactionForm = () => {
   return (
-    <form action="">
+    <form className={s.form}>
       <label>
-        День
+        <span className={s.title}>День</span>
         <input type="date" />
       </label>
       <label>
-        Час
+        <span className={s.title}>Час</span>
         <input type="time" />
       </label>
       <label>
-        Категорія
+        <span className={s.title}>Категорія</span>
         <input type="button" value="різне" />
       </label>
       <label>
-        Сума
-        <input type="text" />
+        <span className={s.title}>Сума</span>
+        <input type="text" placeholder="Введіть суму" />
       </label>
       <label>
-        Валюта
+        <span className={s.title}>Валюта</span>
         <input type="button" value="UAH" />
       </label>
       <label>
-        <input type="text" />
+        <input type="text" placeholder="Коментар" />
       </label>
     </form>
   );

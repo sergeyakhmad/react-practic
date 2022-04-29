@@ -1,4 +1,4 @@
-import HeaderWihtGoBack from "../HeaderWihtGoBack/HeaderWihtGoBack";
+import HeaderWihtGoBack from "../shared/HeaderWihtGoBack/HeaderWihtGoBack";
 import TransactionForm from "../TransactionForm/TransactionForm";
 import ButtonsToAnalitics from "../ButtonsToAnalitics/ButtonsToAnalitics";
 
