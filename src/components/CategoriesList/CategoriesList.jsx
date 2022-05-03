@@ -5,7 +5,7 @@ import sprite from "../../assets/images/sprite.svg";
 const CategoriesList = () => {
   return (
     <>
-      <HeaderWihtGoBack title="Категорії" btnTitle />
+      <HeaderWihtGoBack title="Категорії" withBtn />
       <ul className={s.list}>
         <li className={s.item}>
           <span className={s.title}>Різне</span>

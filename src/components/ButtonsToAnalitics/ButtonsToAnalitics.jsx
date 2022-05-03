@@ -1,12 +1,20 @@
 import s from "./ButtonsToAnalitics.module.scss";
 
-const ButtonsToAnalitics = () => {
+const ButtonsToAnalitics = ({ toggleMain }) => {
   return (
     <div className={s.container}>
-      <button className={s.btn} type="button">
+      <button
+        onClick={() => toggleMain("costs")}
+        className={s.btn}
+        type="button"
+      >
         Всі витрати
       </button>
-      <button className={s.btn} type="button">
+      <button
+        onClick={() => toggleMain("incomes")}
+        className={s.btn}
+        type="button"
+      >
         Всі доходи
       </button>
     </div>

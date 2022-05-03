@@ -1,21 +1,27 @@
 import HeaderWihtGoBack from "../shared/HeaderWihtGoBack/HeaderWihtGoBack";
 import ButtonWithIcon from "../shared/ButtonWithIcon/ButtonWithIcon";
 import s from "./TransactionsHistoryPage.module.scss";
-import { compareAsc, format } from "date-fns";
-import { es, ru } from "date-fns/locale";
+import { format } from "date-fns";
+import { uk } from "date-fns/locale";
 
-const TransactionsHistoryPage = ({ transactions }) => {
+const TransactionsHistoryPage = ({ transactions, toggleMain, transType }) => {
+  const onGoBack = () => toggleMain();
+
   return (
     <>
-      <HeaderWihtGoBack title="Transactions" btnTitle />
+      <HeaderWihtGoBack
+        title={transType === "costs" ? "Витрати" : "Доходи"}
+        withBtn
+        onGoBack={onGoBack}
+      />
       <ul className={s.list}>
         {transactions.map((transaction) => (
           <li className={s.item} key={transaction.id}>
             <div>
               <p className={s.date}>
                 <span>
-                  {format(new Date(transaction.data), "E, dd MMM yyyy", {
-                    locale: ru,
+                  {format(new Date(transaction.date), "E, dd MMM yyyy", {
+                    locale: uk,
                   })}
                 </span>
                 <span>{transaction.time}</span>
