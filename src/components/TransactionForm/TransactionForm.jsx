@@ -3,7 +3,9 @@ import s from "./TransactionForm.module.scss";
 import ButtonWithIcon from "../shared/ButtonWithIcon/ButtonWithIcon";
 import { format } from "date-fns";
 import { uk } from "date-fns/locale";
-import { generate } from "shortid";
+// import { generate } from "shortid";
+import CategoriesList from "../CategoriesList/CategoriesList";
+import { addTransactionApi } from "../../utils/apiService";
 
 const curDate = format(new Date(), "yyyy-MM-dd", {
   locale: uk,
@@ -31,14 +33,23 @@ class TransactionForm extends Component {
   handleSubmit = (e) => {
     e.preventDefault();
 
-    this.props.cbOnSubmit({ ...this.state, id: generate() });
+    // this.props.cbOnSubmit({ ...this.state, id: generate() });
+    addTransactionApi(this.state.transType, this.state).then((transaction) =>
+      this.props.cbOnSubmit(transaction)
+    );
+  };
+
+  setCategory = (category) => {
+    this.setState({ category });
+    this.props.toggleCategoryList();
   };
 
   render() {
     const { date, time, category, sum, currency, comment, transType } =
       this.state;
+    const { isCategoryOpen, toggleCategoryList } = this.props;
 
-    return (
+    return !isCategoryOpen ? (
       <form className={s.form} onSubmit={this.handleSubmit}>
         <ButtonWithIcon icon={"#icon-checkmark"} type={"submit"} />
 
@@ -87,7 +98,7 @@ class TransactionForm extends Component {
             name="category"
             type="button"
             value={category}
-            onChange={this.handleChange}
+            onClick={toggleCategoryList}
           />
         </label>
         <label>
@@ -119,6 +130,11 @@ class TransactionForm extends Component {
           />
         </label>
       </form>
+    ) : (
+      <CategoriesList
+        onGoBack={toggleCategoryList}
+        setCategory={this.setCategory}
+      />
     );
   }
 }
