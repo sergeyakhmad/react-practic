@@ -18,8 +18,8 @@ class TransactionsHistoryItem extends Component {
       transaction,
       contextId,
       transType,
-      deleteTransaction,
       changeContextId,
+      deleteTransaction,
     } = this.props;
     return (
       <li className={s.item} key={transaction.id}>
@@ -40,9 +40,9 @@ class TransactionsHistoryItem extends Component {
         </p>
         <ContextMenuButton
           id={transaction.id}
-          changeContextId={changeContextId}
           contextId={contextId}
           transType={transType}
+          changeContextId={changeContextId}
           deleteTransaction={deleteTransaction}
         />
       </li>

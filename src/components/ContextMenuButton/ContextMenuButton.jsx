@@ -1,13 +1,13 @@
 import ButtonWithIcon from "../shared/ButtonWithIcon/ButtonWithIcon";
 import s from "./ContextMenuButton.module.scss";
 
-const ContextMenuButton = ({
+export default function ContextMenuButton({
   id,
   changeContextId,
   contextId,
   transType,
   deleteTransaction,
-}) => {
+}) {
   return (
     <div className={s.contextWrap}>
       <ButtonWithIcon
@@ -39,6 +39,4 @@ const ContextMenuButton = ({
       )}
     </div>
   );
-};
-
-export default ContextMenuButton;
+}
