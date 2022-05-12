@@ -1,17 +1,24 @@
+import { useNavigate } from "react-router-dom";
 import s from "./ButtonsToAnalitics.module.scss";
 
 const ButtonsToAnalitics = ({ toggleMain }) => {
+  const navigate = useNavigate();
+
+  const openTransactions = (transType) => {
+    navigate("/transactions/" + transType);
+  };
+
   return (
     <div className={s.container}>
       <button
-        onClick={() => toggleMain("costs")}
+        onClick={() => openTransactions("costs")}
         className={s.btn}
         type="button"
       >
         Всі витрати
       </button>
       <button
-        onClick={() => toggleMain("incomes")}
+        onClick={() => openTransactions("incomes")}
         className={s.btn}
         type="button"
       >
