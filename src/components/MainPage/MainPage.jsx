@@ -1,21 +1,33 @@
 import HeaderWihtGoBack from "../shared/HeaderWihtGoBack/HeaderWihtGoBack";
 import TransactionForm from "../TransactionForm/TransactionForm";
 import ButtonsToAnalitics from "../ButtonsToAnalitics/ButtonsToAnalitics";
-import { Route, Routes } from "react-router-dom";
+import { Navigate, Route, Routes } from "react-router-dom";
 import CategoriesList from "../CategoriesList/CategoriesList";
 import { useState } from "react";
+import { useDispatch } from "react-redux";
+import { addTransaction } from "../../redux/transactions/transactionsOperations";
 
-const MainPage = ({ addTransaction }) => {
+const MainPage = () => {
+  const dispatch = useDispatch();
+
   const [category, setCategory] = useState("");
+
+  const submitTransaction = (transaction) => {
+    dispatch(addTransaction(transaction));
+  };
 
   return (
     <Routes>
+      <Route index element={<Navigate to={"costs"} />} />
       <Route
         path=":transType"
         element={
           <>
             <HeaderWihtGoBack title={"Журнал видатків"} />
-            <TransactionForm cbOnSubmit={addTransaction} category={category} />
+            <TransactionForm
+              cbOnSubmit={submitTransaction}
+              category={category}
+            />
             <ButtonsToAnalitics />
           </>
         }

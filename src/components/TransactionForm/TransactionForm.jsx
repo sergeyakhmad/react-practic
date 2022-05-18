@@ -32,6 +32,7 @@ const TransactionForm = ({ category: newCategoty, cbOnSubmit }) => {
     if (name === "transType") navigate("/" + value);
     setForm((prev) => {
       return { ...prev, [name]: value };
+      // np;
     });
   };
 

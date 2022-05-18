@@ -1,83 +1,46 @@
-import { useState, useEffect } from "react";
+import { useEffect } from "react";
+import { useDispatch } from "react-redux";
 import { Route, Routes } from "react-router-dom";
-import CategoriesList from "./components/CategoriesList/CategoriesList";
 import MainPage from "./components/MainPage/MainPage";
-import TransactionForm from "./components/TransactionForm/TransactionForm";
 import TransactionsHistoryPage from "./components/TransactionsHistoryPage/TransactionsHistoryPage";
-import { useLoaderContext } from "./context/LoaderProvider";
+import { getCategoriesApi } from "./utils/apiService";
+
 import {
-  addTransactionApi,
-  getTransactionsApi,
-  removeTransactionApi,
-} from "./utils/apiService";
+  getCostsCats,
+  getIncomesCats,
+} from "./redux/categories/categoriesSlice";
+import { getTransactions } from "./redux/transactions/transactionsOperations";
 
 const App = () => {
-  const setIsLoading = useLoaderContext();
-  const [costs, setCosts] = useState([]);
-  const [incomes, setIncomes] = useState([]);
-  const [error, setError] = useState(null);
-
-  const transactions = { costs, incomes };
-
-  const deleteTransaction = (transType, id) => {
-    setIsLoading(true);
-    removeTransactionApi({ transType, id })
-      .then(() => {
-        transType === "costs" &&
-          setCosts((prev) => prev.filter((el) => el.id !== id));
-        transType === "incomes" &&
-          setIncomes((prev) => prev.filter((el) => el.id !== id));
-      })
-      .catch((err) => setError(err))
-      .finally(() => setIsLoading(false));
-  };
-
-  const addTransaction = (transaction) => {
-    const { transType } = transaction;
-    setIsLoading(true);
-    addTransactionApi(transType, transaction)
-      .then((transaction) => {
-        transType === "costs" && setCosts((prev) => [...prev, transaction]);
-        transType === "incomes" && setIncomes((prev) => [...prev, transaction]);
-      })
-      .catch((err) => setError(err))
-      .finally(() => setIsLoading(false));
-  };
+  const dispatch = useDispatch();
 
   useEffect(() => {
-    const getTransactions = async () => {
-      setIsLoading(true);
+    dispatch(getTransactions("costs"));
+    dispatch(getTransactions("incomes"));
+  }, [dispatch]);
+
+  useEffect(() => {
+    const getCategories = async () => {
       try {
-        try {
-          const costs = await getTransactionsApi("costs");
-          setCosts(costs);
-        } catch (error) {
-          setError(error);
-        }
-        try {
-          const incomes = await getTransactionsApi("incomes");
-          setIncomes(incomes);
-        } catch (error) {
-          setError(error);
-        }
-      } finally {
-        setIsLoading(false);
+        await getCategoriesApi({ transType: "incomes" }).then((res) =>
+          dispatch(getIncomesCats(res))
+        );
+        await getCategoriesApi({ transType: "costs" }).then((res) =>
+          dispatch(getCostsCats(res))
+        );
+      } catch (err) {
+        console.error(err);
       }
     };
-    getTransactions();
+    getCategories();
   }, []);
 
   return (
     <Routes>
-      <Route path="/*" element={<MainPage addTransaction={addTransaction} />} />
+      <Route path="/*" element={<MainPage />} />
       <Route
         path="/transactions/:transType"
-        element={
-          <TransactionsHistoryPage
-            deleteTransaction={deleteTransaction}
-            transactions={transactions}
-          />
-        }
+        element={<TransactionsHistoryPage />}
       />
     </Routes>
   );
